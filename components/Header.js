@@ -1,17 +1,29 @@
 import React from 'react';
 import Image from 'next/image'
 import { SearchIcon, MenuIcon, ShoppingCartIcon } from '@heroicons/react/outline';
-import Banner from './Banner';
-import ProductFeed from './ProductFeed';
+import { useSession, signIn, signOut } from "next-auth/react"
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { selectedItems } from '../slices/cartSlice';
 
-function Header({ products }) {
+function Header() {
+
+    const { data: session } = useSession();
+    const router = useRouter();
+    const items = useSelector(selectedItems);
+
+    const handleChekout = (e) => {
+        e.preventDefault();
+        router.push("/checkout", undefined, { shallow: true })
+    }
+
     return (
         <>
             <header>
                 <div className='flex flex-grow bg-amazon_blue py-2 items-center'>
 
                     <div className='mt-2 ml-1 flex items-center flex-grow sm:flex-grow-0 hover:rounded-sm'>
-                        <Image
+                        <Image onClick={() => router.push('/')}
                             className='cursor-pointer'
                             alt=''
                             src='https://links.papareact.com/f90'
@@ -29,19 +41,26 @@ function Header({ products }) {
                     </div>
 
                     <div className='text-white text-xs flex items-center space-x-5 mx-3 whitespace-nowrap'>
-                        <div className='link'>
-                            <h2 className=''>Hello! Omar Beckham</h2>
+                        <div className='link' onClick={!session ? signIn : signOut}>
+                            <p className='hover:underline'>
+                                {
+                                    session ?
+                                        `Hello! ${session.user.name}` :
+                                        'SignIn!'
+                                }
+                            </p>
                             <p className='font-bold'>Accounts and Lists</p>
                         </div>
 
-
-                        <div className='link'>
+                        <div className='link' onClick={() => session && router.push('/orders')}>
                             <h2 className=''>Returns</h2>
                             <p className='font-bold'>& Orders</p>
                         </div>
 
-                        <div className='relative flex items-center link'>
-                            <span className='absolute h-4 w-4 top-0 left-8 bg-yellow-400 text-center rounded-full text-amazon_blue font-bold'>2</span>
+                        <div onClick={handleChekout}
+                            className='relative flex items-center link'>
+                            <span className='absolute h-4 w-4 top-0 left-8 bg-yellow-400 text-center rounded-full
+                             text-amazon_blue font-bold'>{items?.length || 0}</span>
                             <ShoppingCartIcon className='h-10' />
                             <h3 className='hidden md:inline-flex font-bold mt-1'>Cart</h3>
                         </div>
@@ -67,16 +86,6 @@ function Header({ products }) {
                     <p className='hidden lg:inline-flex link'>Shopper Toolkit</p>
                 </div>
             </header >
-
-            <main className='max-w-screen-2xl mx-auto'>
-
-                <Banner />
-
-                <ProductFeed
-                    products={products}
-                />
-
-            </main>
         </>
     )
 }

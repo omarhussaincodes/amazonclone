@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 function ProductFeed({ products }) {
     return (
-        <div className='grid grid-flow-row-dense items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
+        <div className='grid grid-flow-row-dense items-center justify-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
         md:-mt-48 mx-auto bg-gray-100'>
             {
                 products?.slice(0, 4).map((product) => (
@@ -13,7 +13,7 @@ function ProductFeed({ products }) {
                         id={product.id}
                         title={product.title}
                         description={product.description}
-                        img={product.image}
+                        image={product.image}
                         price={product.price}
                         category={product.category}
                         rating={product.rating}
@@ -29,7 +29,7 @@ function ProductFeed({ products }) {
                             id={product.id}
                             title={product.title}
                             description={product.description}
-                            img={product.image}
+                            image={product.image}
                             price={product.price}
                             category={product.category}
                             rating={product.rating}
@@ -45,7 +45,7 @@ function ProductFeed({ products }) {
                         id={product.id}
                         title={product.title}
                         description={product.description}
-                        img={product.image}
+                        image={product.image}
                         price={product.price}
                         category={product.category}
                         rating={product.rating}
