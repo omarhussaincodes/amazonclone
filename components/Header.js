@@ -26,7 +26,7 @@ function Header() {
                         <Image onClick={() => router.push('/')}
                             className='cursor-pointer'
                             alt=''
-                            src='https://links.papareact.com/f90'
+                            src='https://pngimg.com/uploads/amazon/amazon_PNG11.png'
                             objectFit='contain'
                             width={150}
                             height={40}
